@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  server:
+    image: node:10.16
+    entrypoint: ["/bin/sh","-c"]
+    volumes:
+        - ./server/:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+        - api
+    ports:
+        - 8080:8080
+    command:
+        - |
+            npm install
+            npm start
+  api:
+    image: node:10.16
+    entrypoint: ["/bin/sh","-c", ]
+    volumes:
+       - ./api/:/var/www/html
+    working_dir: /var/www/html
+    ports:
+        - 3000:3000
+    command:
+        - |
+            npm install
+            npm start
