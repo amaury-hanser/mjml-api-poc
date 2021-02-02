@@ -13,5 +13,8 @@ When it's done, it sends the html result back and the preview is updated.
 
 ## How to install?
 Clone the repository, then run docker-compose up.  
-The command will install all the required packages.  
+The command will install all the required packages and run two servers:
+- one server for the api
+- one server for the client
+
 When both servers are ready, *api* and *client* side, simply open [http://localhost:8080](http://localhost:8080).
