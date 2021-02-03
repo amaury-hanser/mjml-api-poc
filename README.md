@@ -29,10 +29,10 @@ When both servers are ready, *api* and *client* side, simply open [http://localh
 │   └── twig
 │       ├── _layouts
 │       │   └── default.twig  // Base layout with default variables value
-│       ├── index.twig        // Mail template
-│       └── partials
-│           ├── header.twig   // Partial used by index.twig
-│           └── socials.twig  // Partial used by index.twig
+│       ├── partials
+│       │   ├── header.twig   // Partial used by index.twig
+│       │   └── socials.twig  // Partial used by index.twig
+│       └── index.twig        // Mail template
 ├── docker-compose.yml
 ├── README.md
 └── server
