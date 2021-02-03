@@ -43,3 +43,4 @@ When both servers are ready, *api* and *client* side, simply open [http://localh
 ## What's next ?
 - [ ] Add a script for watching twig files during development phase.
 - [ ] Adapt the api for a php server
+- [ ] Adapt a button to save the mail as an html file
