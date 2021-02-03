@@ -8,8 +8,7 @@ const mjml2html = require('mjml')             // mjml render function
 
 /* TWIG */
 const Twig = require('twig')                  // twig module
-const twig = Twig.twig;                       // twig render function
-
+Twig.cache(false)                             // disable twig cache, allow to edit twig file without restarting the api server
 
 const app = express()
 const port = 3000
