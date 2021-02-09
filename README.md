@@ -59,4 +59,4 @@ By the way, if you make any change to your twig files, your browser will render 
 - [x] Add a script for watching twig files during development phase.
 - [x] Add a mail sender to the api.
 - [ ] Adapt the api for a php server
-- [ ] Adapt a button to save the mail as an html file
+- [ ] Check how to render a twig/mjml partial (e.g. cart) 
