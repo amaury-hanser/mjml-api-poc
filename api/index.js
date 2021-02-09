@@ -43,10 +43,22 @@ app.post('/renderTwig', jsonParser, cors(), (req, res) => {
   const mailContext = req.body.mailContext      // get all variables in req.body.mailContext
   const mainTwigFile = `assets/twig/${mailContext.theme}/index.twig`  // path of the main twig file
 
+  // Test to render a partial like cart.twig that shouldn't have <mj-body>
+  let cartContent
+  Twig.renderFile(`assets/twig/${mailContext.theme}/placeholder-cart.twig`, {...mailContext}, (err, html) => {
+    let resHtml = mjml2html(html)
+    resHtml.html = resHtml.html.replace(/([\S\s]+)(?<=(\<\!-- removebefore \-\-\>))/g, '')
+    resHtml.html = resHtml.html.replace(/(?=(\<\!-- removeafter \-\-\>))([\S\s]+)/g, '')
+    cartContent = resHtml.html
+  });
+
+
   Twig.renderFile(mainTwigFile, {...mailContext}, (err, html) => {
     let resHtml = mjml2html(html)             // Compile mjml to html
-    res.send(resHtml)                         // Send the html back
 
+    resHtml.html = resHtml.html.replace('{cart}', cartContent) // Used only if you want to render cart.twig
+
+    res.send(resHtml)                         // Send the html back
     mailHTML = resHtml.html                   // Store result for email sending
   });
 })
