@@ -1,0 +1,15 @@
+{% set imgURL = imgURL|default('http://localhost:3000/assets/img/') %}
+
+{% set mainColor = mainColor|default('#01a000') %}
+{% set secondaryColor = secondaryColor|default('#cd8807') %}
+{% set titleText = titleText|default('Article Title - Sendy') %}
+
+{% set mainText = mainText|default('Bienvenue {firstname} {lastname} !\nTu es là pour ta dose quotidienne de Chuck Norris facts ?\n Tu es au bon endroit !')|nl2br %}
+{% set cta = cta|default('Lire sa bio')|upper %}
+
+{# {% set facebookLink = facebookLink|default('https://www.facebook.com') %}
+{% set twitterLink = twitterLink|default('https://www.twitter.com') %}
+{% set instagramLink = instagramLink|default('https://www.instagram.com') %} #}
+
+{% block content %}
+{% endblock %}

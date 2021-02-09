@@ -1,0 +1,21 @@
+{% if facebookLink|default or twitterLink|default or instagramLink|default %}
+  <mj-section background-color='#fff'>
+      <mj-column>
+        <mj-social icon-size="53px" mode="horizontal">
+
+          {% if facebookLink|default %}
+            <mj-social-element width='53px' src='{{imgURL}}facebook.png' href='{{facebookLink}}'></mj-social-element>
+          {% endif %}
+
+          {% if twitterLink|default %}
+            <mj-social-element width='53px' src='{{imgURL}}twitter.png' href='{{twitterLink}}'></mj-social-element>
+          {% endif %}
+
+          {% if instagramLink|default %}
+            <mj-social-element width='53px' src='{{imgURL}}instagram.png' href='{{instagramLink}}'></mj-social-element>
+          {% endif %}
+
+        </mj-social>
+      </mj-column>
+  </mj-section>
+{% endif %}

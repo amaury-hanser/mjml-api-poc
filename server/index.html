@@ -9,6 +9,25 @@
   <main>
     <form id="formCustomMail" class="form">
         <h1>Mjml API Test</h1>
+        <div>
+          <legend for="secondaryColor">
+            Theme Selection
+          </legend>
+          <div class="form__element">
+            <label for="boxy">
+              <span>
+                Boxy
+              </span>
+              <input type="radio" class="js-listen-to-input" name="theme" id="boxy" value="boxy" checked="true">
+            </label>
+            <label for="sendy">
+              <span>
+                Sendy
+              </span>
+              <input type="radio" class="js-listen-to-input" name="theme" id="sendy" value="sendy">
+            </label>
+          </div>
+        </div>
         <div class="form__element">
           <label for="mainColor">
             Main Color
@@ -21,11 +40,18 @@
           </label>
           <input type="color" class="js-listen-to-input" value="#000001" id="secondaryColor">
         </div>
+
         <div class="form__element">
           <label for="titleText">
-            First Article Title
+            Article Title
           </label>
           <input type="text" class="js-listen-to-input" id="titleText">
+        </div>
+        <div class="form__element">
+          <label for="mainText">
+            Article Text
+          </label>
+          <textarea class="js-listen-to-input" id="mainText"></textarea>
         </div>
         <div class="form__element">
           <label for="facebookLink">
@@ -45,9 +71,11 @@
           </label>
           <input type="text" class="js-listen-to-input" id="instagramLink">
         </div>
+        <button id="mailSender">Send email</button>
       </form>
       <div id="result"></div>
     </main>
+    <div id="urlPreview"></div>
 
     <style>
       *, *:before, *:after {
@@ -61,16 +89,24 @@
       main {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 3rem;
       }
 
       .form__element {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        margin-bottom: 1em;
+        flex-wrap: wrap;
       }
 
-      .form__element input[type=text] {
-        margin-left: 0.75em;
+      .form__element label {
+        padding: .5em 0 .2em;
+      }
+
+      .form__element input[type=text],
+      .form__element textarea {
+        width: 100%;
+        margin-bottom: 0.75em;
       }
 
       #result {
@@ -121,9 +157,13 @@
         const mainColorInput = document.getElementById('mainColor')
         const secondaryColorInput = document.getElementById('secondaryColor')
         const titleTextInput = document.getElementById('titleText')
+        const mainTextInput = document.getElementById('mainText')
         const facebookLinkInput = document.getElementById('facebookLink')
         const twitterLinkInput = document.getElementById('twitterLink')
         const instagramLinkInput = document.getElementById('instagramLink')
+
+        // Get element where we'll add a link to the mail preview
+        const urlDiv = document.getElementById('urlPreview')
 
         // Listen to the event input and re-render the mail
         document.querySelectorAll('.js-listen-to-input').forEach(item => {
@@ -137,14 +177,14 @@
             // Add a spinner, because why not
             div.classList.add('is-loading');
 
-            // If titleTextInput value is empty, use the string "Article Title"
-            let titleText = titleTextInput.value;
-
             // Get value for every inputs
             // For the color inputs, why want to send an empty string on page load
             // that's why we check for a value that we have set in the html
+            let theme = document.querySelector('input[name=theme]:checked').value;
             let mainColor = mainColorInput.value !== "#000001" ? mainColorInput.value : '';
             let secondaryColor = secondaryColorInput.value !== "#000001" ? secondaryColorInput.value : '';
+            let titleText = titleTextInput.value;
+            let mainText = mainTextInput.value;
             let facebookLink = facebookLinkInput.value;
             let twitterLink = twitterLinkInput.value;
             let instagramLink = instagramLinkInput.value;
@@ -155,7 +195,7 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 mailContext: {
-                  titleText, mainColor, secondaryColor, facebookLink, twitterLink, instagramLink
+                  theme, titleText, mainText, mainColor, secondaryColor, facebookLink, twitterLink, instagramLink
                 }
               })
             })
@@ -163,6 +203,7 @@
               response.json().then(data => {
                 // Inject the html in the div#result
                 div.innerHTML  = data.html;
+                urlDiv.innerHTML = ''
 
                 // Remove the spiner
                 div.classList.remove('is-loading');
@@ -171,10 +212,52 @@
             .catch(err => {
               console.error(err);
             });
-        }
 
+
+        }
         // Render mail for the first time
         renderMail();
+
+
+
+        /**
+         ** SEND MAIL
+         */
+        // Get the button used to send an email
+        const mailSenderBtn = document.getElementById('mailSender')
+
+        // Add on Click event to the button
+        mailSenderBtn.addEventListener('click', ()=> {
+          // Send a POST request to the api
+          fetch(`http://localhost:3000/sendMail`, {
+            method: "POST",
+            mode: "cors"
+          })
+          .then(response => {
+            // If it's OK, write a link with the url of the mail preview on urlDiv
+            response.json().then(data => {
+              urlDiv.innerHTML = `<a href="${data.url}" target="_blank">Prévisualiser l'email <small>(ouvre un nouvel onglet)</small></a>`
+            });
+          })
+          .catch(err => {
+            console.error(err);
+          });
+        })
+
+        /**
+         ** SUBSCRIBE TO RE-RENDER PREVIEW ON FILE CHANGE
+         *  We create a connection between the client and the server
+         *  The server is watching for files moodifications (twig, img, etc...)
+         *  If a file change, it sends a message to the client
+         *  Then, the client ask to re-render the preview with renderMail()
+         */
+        const source = new EventSource('http://localhost:3000/watch');
+        source.onmessage = function(e) {
+          const jsonData = JSON.parse(e.data);
+          if (jsonData.refresh === 1) {
+            renderMail()
+          }
+        };
     </script>
 </body>
 </html>
