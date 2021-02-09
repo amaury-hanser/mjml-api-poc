@@ -17,30 +17,44 @@ The command will install all the required packages and run two servers:
 
 When both servers are ready, *api* and *client* side, simply open [http://localhost:8080](http://localhost:8080).
 
+You can now edit your email in the web browser, you'll see the changes reflected on the preview, if you click on send email, you'll get a link to preview the sent email.  
+You'll see that variables `{firstname}` and `{lastname}` are parsed when the mail is sent.  
+
+By the way, if you make any change to your twig files, your browser will render the preview and keep the edit you had made with the form.
+
 ## What do the files do?
 ```
 ├── .gitignore
 ├── api
 │   ├── assets
-│   │   └── img
-│   ├── index.js              // API Script: Server, twig and mjml rendering functions
+│   │   ├── img
+│   │   │   └── ...
+│   │   └── twig
+│   │       ├── boxy
+│   │       │   ├── _layouts
+│   │       │   │   └── ...
+│   │       │   ├── _partials
+│   │       │   │   └── ...
+│   │       │   └── index.twig  // Mail template
+│   │       └── sendy
+│   │           ├── _layouts
+│   │           │   └── ...
+│   │           ├── _partials
+│   │           │   └── ...
+│   │           └── index.twig  // Mail template
+│   ├── index.js                // API: Server, Twig/Mjml rendering, MailSender
 │   ├── package-lock.json
-│   ├── package.json
-│   └── twig
-│       ├── _layouts
-│       │   └── default.twig  // Base layout with default variables value
-│       ├── _partials
-│       │   ├── header.twig   // Partial used by index.twig
-│       │   └── socials.twig  // Partial used by index.twig
-│       └── index.twig        // Mail template
+│   └── package.json
 ├── docker-compose.yml
 ├── README.md
 └── server
-    ├── index.html            // Web page with a form and a live preview
+    ├── favicon.ico
+    ├── index.html              // Webpage, live edit mail and preview
     ├── package-lock.json
     └── package.json
 ````
 ## What's next ?
-- [ ] Add a script for watching twig files during development phase.
+- [x] Add a script for watching twig files during development phase.
+- [x] Add a mail sender to the api.
 - [ ] Adapt the api for a php server
 - [ ] Adapt a button to save the mail as an html file
