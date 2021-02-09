@@ -1,5 +1,7 @@
 # Mjml-twig-poc
 
+![Preview of Mjml twig poc](https://raw.githubusercontent.com/amaury-hanser/mjml-twig-poc/main/mjml-twig-poc_preview.png)
+
 ## Mjml-twig-poc, what's that?
 **Mjml-twig-poc** was created as an exemple to show how one can work with *mjml*, *twig* to configure and edit an email in his browser.  
 This is a proof of concept and is by no mean a project ready for production.
