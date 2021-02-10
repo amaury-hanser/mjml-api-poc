@@ -14,6 +14,11 @@ services:
         - CHOKIDAR_USEPOLLING=true
     ports:
         - 3000:3000
+    healthcheck:
+      test: ["CMD", "netstat -ltn | grep -c 3000"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
 
   server:
     image: node:15.7.0
@@ -24,8 +29,9 @@ services:
     depends_on:
         - api
     command:
-        - |
+          - |
             npm install
+            ./wait-for-it.sh api:3000
             npm run server
     ports:
         - 8080:8080
