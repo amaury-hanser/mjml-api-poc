@@ -58,7 +58,6 @@ By the way, if you make any change to your twig files, your browser will render 
 ## What's next ?
 - [x] Add a script for watching twig files during development phase.
 - [x] Add a mail sender to the api.
+- [x] Check how to render a twig/mjml partial (e.g. cart)   
 - [ ] Adapt the api for a php server
-- [ ] Check how to render a twig/mjml partial (e.g. cart)   
-  *This one is in test*
   

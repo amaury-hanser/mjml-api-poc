@@ -5,6 +5,13 @@
 
 {% set titleText = titleText|default('Article Title - Boxy') %}
 {% set mainText = mainText|default('Bienvenue {firstname} {lastname} !\nTu es là pour ta dose quotidienne de Chuck Norris facts ?\n Tu es au bon endroit !')|nl2br %}
+
+{%- set cart -%}
+    {% include "../_partials/cart.twig" %}
+{%- endset -%}
+
+{% set mainText = mainText|replace({'{cart}': cart}) %}
+
 {% set cta = cta|default('Lire sa bio')|upper %}
 
 {# {% set facebookLink = facebookLink|default('https://www.facebook.com') %}
