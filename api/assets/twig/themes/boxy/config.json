@@ -26,6 +26,24 @@
       "label": "Article Text",
       "listener": "input",
       "type": "textarea"
+    },
+    {
+      "id": "facebookLink",
+      "label": "Facebook Link",
+      "listener": "input",
+      "type": "text"
+    },
+    {
+      "id": "twitterLink",
+      "label": "Twitter Link",
+      "listener": "input",
+      "type": "text"
+    },
+    {
+      "id": "instagramLink",
+      "label": "Instagram Link",
+      "listener": "input",
+      "type": "text"
     }
   ]
 }
