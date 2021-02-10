@@ -24,40 +24,46 @@ You'll see that variables `{firstname}` and `{lastname}` are parsed when the mai
 
 By the way, if you make any change to your twig files, your browser will render the preview and keep the edit you had made with the form.
 
+The form is generated from a config file in each theme: `api\assets\twig\themes\foo\config.json`.
+
 ## What do the files do?
 ```
-├── .gitignore
 ├── api
 │   ├── assets
 │   │   ├── img
 │   │   │   └── ...
 │   │   └── twig
-│   │       ├── boxy
-│   │       │   ├── _layouts
-│   │       │   │   └── ...
+│   │       ├── form
 │   │       │   ├── _partials
 │   │       │   │   └── ...
-│   │       │   └── index.twig  // Mail template
-│   │       └── sendy
-│   │           ├── _layouts
-│   │           │   └── ...
-│   │           ├── _partials
-│   │           │   └── ...
-│   │           └── index.twig  // Mail template
-│   ├── index.js                // API: Server, Twig/Mjml rendering, MailSender
-│   ├── package-lock.json
-│   └── package.json
+│   │       │   └── index.twig      // Template to render the forms
+│   │       └── themes
+│   │           ├── boxy
+│   │           │   ├── _layouts
+│   │           │   │   └── ...
+│   │           │   ├── _partials
+│   │           │   │   └── ...
+│   │           │   ├── config.json // Contains all the necessary form inputs 
+│   │           │   └── index.twig  // Mail template
+│   │           └── sendy
+│   │               ├── _layouts
+│   │               │   └── ...
+│   │               ├── _partials
+│   │               │   └── ...
+│   │               ├── config.json // Contains all the necessary form inputs 
+│   │               └── index.twig  // Mail template
+│   ├── index.js                    // API: Server, Twig/Mjml rendering, MailSender
 ├── docker-compose.yml
+├── mjml-twig-poc_preview.png
 ├── README.md
 └── server
     ├── favicon.ico
-    ├── index.html              // Webpage, live edit mail and preview
-    ├── package-lock.json
-    └── package.json
+    └── index.html                  // Webpage, live edit mail and preview
 ````
 ## What's next ?
 - [x] Add a script for watching twig files during development phase.
 - [x] Add a mail sender to the api.
-- [x] Check how to render a twig/mjml partial (e.g. cart)   
+- [x] Check how to render a twig/mjml partial (e.g. cart)
+- [x] Render the form on the fly with a config file
 - [ ] Adapt the api for a php server
   
