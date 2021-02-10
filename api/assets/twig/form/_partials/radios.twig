@@ -1,0 +1,14 @@
+<div>
+  <legend>
+    Theme Selection
+  </legend>
+  <div class="form__element">
+    {% for theme in _context %}
+      {%- include "inputRadio.twig" with {
+        "name": theme.name,
+        "checked": loop.first,
+        "group": "theme"
+        } -%}
+    {% endfor %}
+  </div>
+</div>

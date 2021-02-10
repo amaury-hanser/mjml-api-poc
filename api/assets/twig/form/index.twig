@@ -1,0 +1,7 @@
+{% include "_partials/radios.twig" %}
+{% for theme in _context %}
+  {%- include "_partials/form.twig" with {
+    "hidden": loop.index > 1
+  }
+  -%}
+{% endfor %}

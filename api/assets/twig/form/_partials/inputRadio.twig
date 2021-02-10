@@ -1,0 +1,6 @@
+<label for="radio-{{name}}">
+  <span>
+    {{name}}
+  </span>
+  <input type="radio" {{listener ? 'class="js-listen-to#{listener}"' : ''}} name="{{group}}" id="radio-{{name}}" value="{{name}}" {{checked ? 'checked="true"'}}>
+</label>

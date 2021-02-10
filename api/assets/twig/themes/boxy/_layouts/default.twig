@@ -3,14 +3,14 @@
 {% set mainColor = mainColor|default('#000000') %}
 {% set secondaryColor = secondaryColor|default('#8ccaca') %}
 
-{% set titleText = titleText|default('Article Title - Boxy') %}
-{% set mainText = mainText|default('Bienvenue {firstname} {lastname} !\nTu es là pour ta dose quotidienne de Chuck Norris facts ?\n Tu es au bon endroit !')|nl2br %}
+{% set articleTitle = articleTitle|default('Article Title - Boxy') %}
+{% set articleText = articleText|default('Bienvenue {firstname} {lastname} !\nTu es là pour ta dose quotidienne de Chuck Norris facts ?\n Tu es au bon endroit !')|nl2br %}
 
 {%- set cart -%}
     {% include "../_partials/cart.twig" %}
 {%- endset -%}
 
-{% set mainText = mainText|replace({'{cart}': cart}) %}
+{% set articleText = articleText|replace({'{cart}': cart}) %}
 
 {% set cta = cta|default('Lire sa bio')|upper %}
 

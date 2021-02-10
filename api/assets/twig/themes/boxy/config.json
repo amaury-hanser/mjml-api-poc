@@ -1,0 +1,31 @@
+{
+  "name": "boxy",
+  "inputs": [
+    {
+      "defaultValue": "#000001",
+      "id": "mainColor",
+      "label": "Main color",
+      "listener": "input",
+      "type": "color"
+    },
+    {
+      "defaultValue": "#000001",
+      "id": "secondaryColor",
+      "label": "Secondary color",
+      "listener": "input",
+      "type": "color"
+    },
+    {
+      "id": "articleTitle",
+      "label": "Article Title",
+      "listener": "input",
+      "type": "text"
+    },
+    {
+      "id": "articleText",
+      "label": "Article Text",
+      "listener": "input",
+      "type": "textarea"
+    }
+  ]
+}

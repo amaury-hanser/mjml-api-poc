@@ -16,7 +16,24 @@ const mjml2html = require('mjml')             // mjml render function
 const Twig = require('twig')                  // twig module
 Twig.cache(false)                             // disable twig cache, allow to edit twig file without restarting the api server
 
-const twig = require('jstransformer')(require('jstransformer-twig'))
+/* BASIC FUNCTIONS */
+const fs = require('fs');
+const path = require('path');
+
+
+
+/**
+ ** GET LIST OF FOLDERS
+ *  Will be used for themes
+ */
+function getFolders(dir) {
+  return fs.readdirSync(dir)
+    .filter(function(file) {
+      return fs.statSync(path.join(dir, file)).isDirectory();
+    });
+}
+
+const themes = getFolders('./assets/twig/themes');
 
 
 /**
@@ -29,9 +46,33 @@ const jsonParser = bodyParser.json()          // create application/json parser
 app.use('/assets', express.static('assets'))  // middleware to serve assets
 app.options('/renderTwig', cors())            // middleware for cors
 app.options('/sendMail', cors())              // middleware for cors
+app.options('/getForms', cors())              // middleware for cors
 app.options('/watch', cors())                 // middleware for cors
 
 let mailHTML = ''                             // create variable for later use
+
+/**
+ ** GET FORMS
+ */
+
+app.post('/getForms', jsonParser, cors(), (req, res) => {
+  // const mailContext = req.body.mailContext      // get all variables in req.body.mailContext
+  const mainTwigFile = `assets/twig/form/index.twig`  // path of the main twig file
+  let themesConfigs = []
+
+  themes.forEach((theme) => {
+    let jsonData = JSON.parse(fs.readFileSync(`./assets/twig/themes/${theme}/config.json`, 'utf8'));
+
+    // let jsonData = require(`./assets/twig/themes/${theme}/config.json`);
+    if (jsonData) {
+      themesConfigs.push(jsonData)
+    }
+  })
+
+  Twig.renderFile(mainTwigFile, {...themesConfigs}, (err, html) => {
+    res.send(JSON.stringify(html))                         // Send the html back
+  });
+})
 
 /**
  ** RENDER TWIG AND MJML
@@ -43,7 +84,7 @@ let mailHTML = ''                             // create variable for later use
 
 app.post('/renderTwig', jsonParser, cors(), (req, res) => {
   const mailContext = req.body.mailContext      // get all variables in req.body.mailContext
-  const mainTwigFile = `assets/twig/${mailContext.theme}/index.twig`  // path of the main twig file
+  const mainTwigFile = `assets/twig/themes/${mailContext.theme}/index.twig`  // path of the main twig file
 
   Twig.renderFile(mainTwigFile, {...mailContext}, (err, html) => {
     let resHtml = mjml2html(html)             // Compile mjml to html
@@ -78,7 +119,7 @@ app.get('/watch', jsonParser, cors(), (req, res) => {
  *  so the client can ask to re-render the mail
  */
 
-chokidar.watch('assets/**/*.*', {
+let assetsWatcher = chokidar.watch('assets/**/*.*', {
   usePolling: true,
   awaitWriteFinish: {
       pollInterval: 100,
@@ -86,12 +127,32 @@ chokidar.watch('assets/**/*.*', {
   },
   ignoreInitial: true,
   persistent: true
-}).on('all', (event, path) => {
+})
+.on('all', (event, path) => {
   // First we check if client exists
   if (client) {
-    client.write('data: ' + JSON.stringify({ refresh : 1 }) + '\n\n');
+    client.write('data: ' + JSON.stringify({ refresh : true }) + '\n\n');
   }
 });
+
+let configsWatcher = chokidar.watch(['assets/**/config.json', 'assets/twig/form/**/*.*'], {
+  usePolling: true,
+  awaitWriteFinish: {
+      pollInterval: 100,
+      stabilityThreshold: 250
+  },
+  ignoreInitial: true,
+  persistent: true
+})
+.on('all', (event, path) => {
+  // First we check if client exists
+  if (client) {
+    client.write('data: ' + JSON.stringify({ getNewForms : true }) + '\n\n');
+  }
+});
+
+assetsWatcher
+configsWatcher
 
 /**
  ** SEND EMAIL

@@ -3,23 +3,20 @@
 {% block content  %}
   <mjml>
     <mj-body>
-      <mj-wrapper border="6px solid {{secondColor}}" padding="40px 20px">
-
         {% include '_partials/header.twig' %}
         <mj-section background-color='#f3f3f3'>
           <mj-column>
               <mj-image width='170px' src='{{imgURL}}nwNZ0TW.png'></mj-image>
           </mj-column>
           <mj-column>
-              <mj-text font-weight='bold' align='justify' font-size='24px' color='{{mainColor}}' font-family='helvetica'>{{titleText}}</mj-text>
-              <mj-text align='justify' font-size='15px' color='#000' font-family='helvetica'>{{mainText}}</mj-text>
+              <mj-text font-weight='bold' align='justify' font-size='24px' color='{{mainColor}}' font-family='helvetica'>{{articleTitle}}</mj-text>
+              <mj-text align='justify' font-size='15px' color='#000' font-family='helvetica'>{{articleText}}</mj-text>
               {% if cta|default %}
                 <mj-button align='left' background-color='{{secondaryColor}}' border-radius='40px' font-family='helvetica' font-size='12px'>{{cta}}</mj-button>
               {% endif %}
           </mj-column>
         </mj-section>
         {% include '_partials/socials.twig' %}
-      </mj-wrapper>
     </mj-body>
   </mjml>
 {% endblock %}

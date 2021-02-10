@@ -1,0 +1,4 @@
+<label for="{{id ~ '-' ~ theme.name}}">
+  {{label}}
+</label>
+<textarea {{(defaultValue) ? 'value="' ~ defaultValue ~ '"'}} {{listener ? 'class="js-listen-to-' ~ listener ~'"'}} id="{{id ~ '-' ~ theme.name}}" data-input="{{id}}"></textarea>

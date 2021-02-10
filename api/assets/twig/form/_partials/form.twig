@@ -1,0 +1,8 @@
+<form id="form-{{theme.name}}" class="form-theme" {{hidden ? "hidden"}}>
+  {% for input in theme.inputs %}
+    <div class="form__element">
+      {% include 'input' ~ input.type|capitalize ~ ".twig" with input %}
+    </div>
+  {% endfor %}
+  <button id="mailSender-{{theme.name}}" class="mailSender">Send email</button>
+</form>
