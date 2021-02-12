@@ -11,6 +11,14 @@ Every time you change the value of an input, a request is sent to a server with 
 
 When it's done, it sends the html result back and the preview is updated.
 
+## What features ca I expect?
+- Auto-generation of the form for each theme depending on their config file
+- Live compilation of Twig and Mjml
+- Live preview of the email in the browser
+- Watch twig to update the live preview in the browser
+- Watch config files to update the form in the browser
+- Mail sender to check what is sent
+
 ## I'm hyped! How do I install it?
 Clone the repository, then run docker-compose up.  
 The command will install all the required packages and run two servers:
@@ -18,13 +26,6 @@ The command will install all the required packages and run two servers:
 - one server for the client
 
 When both servers are ready, *api* and *client* side, simply open [http://localhost:8080](http://localhost:8080).
-
-You can now edit your email in the web browser, you'll see the changes reflected on the preview, if you click on send email, you'll get a link to preview the sent email.  
-You'll see that variables `{firstname}` and `{lastname}` are parsed when the mail is sent.  
-
-By the way, if you make any change to your twig files, your browser will render the preview and keep the edit you had made with the form.
-
-The form is generated from a config file in each theme: `api\assets\twig\themes\foo\config.json`.
 
 ## What do the files do?
 ```
