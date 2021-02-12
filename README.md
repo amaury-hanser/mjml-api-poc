@@ -11,7 +11,7 @@ Every time you change the value of an input, a request is sent to a server with 
 
 When it's done, it sends the html result back and the preview is updated.
 
-## What features ca I expect?
+## What features can I expect?
 - Auto-generation of the form for each theme depending on their config file
 - Live compilation of Twig and Mjml
 - Live preview of the email in the browser
